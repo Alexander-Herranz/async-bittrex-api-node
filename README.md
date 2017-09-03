@@ -14,7 +14,11 @@ let bittrexAPI = new BittrexAPI()
 await bittrexAPI.getmarkets()
 ```
 
-https://www.npmjs.com/package/async-await-mongoclient-es6-promisify
+Explore the code on Github:
+https://github.com/Alexander-Herranz/async-bittrex-api-node
+Use the library directly as npm package:
+https://www.npmjs.com/package/async-bittrex-api-node
+
 
 # async-bittrex-api-node
 
