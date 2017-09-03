@@ -1,0 +1,22 @@
+{
+  "name": "async-bittrex-api-node",
+  "version": "1.0.0",
+  "description": "Bittrex cryptocurrency exchange API client for node js, using async/await feature, natively promising request response.",
+  "main": "BittrexAPI.js",
+  "scripts": {
+    "test": "node testBittrexAPI.js"
+  },
+  "keywords": [
+    "bittrex",
+    "api",
+    "node",
+    "client",
+    "async",
+    "await"
+  ],
+  "author": "Alexander Herranz",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.81.0"
+  }
+}
