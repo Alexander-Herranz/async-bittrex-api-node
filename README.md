@@ -4,9 +4,14 @@ You can just install in your project and use it with:
 ```sh
 $npm install async-bittrex-api-node --save
 ```
+
 and simply require it where you need it in your node js application:
+
 ```sh
-const async-bittrex-api-node = require ('async-bittrex-api-node')
+const {BittrexAPI} = require ('async-bittrex-api-node')
+let bittrexAPI = new BittrexAPI()
+
+await bittrexAPI.getmarkets()
 ```
 
 https://www.npmjs.com/package/async-await-mongoclient-es6-promisify
