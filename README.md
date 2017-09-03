@@ -31,7 +31,7 @@ Functions are pretty descriptive by their name. Same name as Bittrex endpoints.
 
 #### Params
  - pair1/pair2: <String> Example: 'btc', 'eth', 'letc'...
- - data: <Object> Any json object, use JSON.parse(obj) if needed.
+ - type: <String> Example: "buy", "sell" or "both"
 
 
 ### Test the module yourself

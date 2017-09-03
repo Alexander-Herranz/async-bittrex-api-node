@@ -6,7 +6,7 @@ testAPI()
 async function testAPI(){
   let pair1 = 'btc'
   let pair2 = 'eth'
-  let type  = 'both'
+  let type  = 'both'//buy, sell or both
 
   console.log('TEST 1: ')
   console.log( await bittrexAPI.getmarkets() )
