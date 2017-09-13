@@ -16,7 +16,17 @@ const url = {
     getmarkethistory: 'getmarkethistory',
 
     //Private
-    getorderhistory: 'getorderhistory'
+    getorderhistory: 'getorderhistory',
+    getbalances: 'getbalances',
+    getbalance: 'getbalance',
+    getwithdrawalhistory: 'getwithdrawalhistory',
+    getdepositaddress: 'getdepositaddress',
+    getdeposithistory: 'getdeposithistory',
+    getorder: 'getorder',
+    withdraw: 'withdraw'
+
+
+
 };
 
 
@@ -61,12 +71,15 @@ class Bittrex {
     }
 
 
-    getObjectParams() {
-        return {
+    getObjectParams(params) {
+
+        let api = {
             apikey: this.apiKey,
             apiSecret: this.apiSecret,
             nonce: Bittrex.getNonce()
-        }
+        };
+
+        return Object.assign(api, params)
     }
 
 
@@ -173,18 +186,89 @@ class Bittrex {
 
     //Private API requests
 
-    async getorderhistory() {
-        try {
 
-            let endpoint = Bittrex.generateUri(url.privateUrl + url.getorderhistory, this.getObjectParams());
+    async getbalances(){
+
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getbalances, this.getObjectParams());
 
             return await this.doRequest(endpoint);
 
         } catch (error) {
             console.log(error);
         }
-
     }
+
+    async getbalance(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getbalance, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getwithdrawalhistory(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getwithdrawalhistory, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getdepositaddress(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getdepositaddress, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getdeposithistory(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getdeposithistory, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getorderhistory(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getorderhistory, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getorder(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.getorder, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async withdraw(params){
+        try{let endpoint = Bittrex.generateUri(url.privateUrl + url.withdraw, this.getObjectParams(params));
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
 
 
 }
