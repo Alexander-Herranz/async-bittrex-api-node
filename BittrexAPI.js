@@ -1,100 +1,192 @@
-const request = require("request")
+const request = require('request');
+const hmac_sha512 = require('crypto-js/hmac-sha512');
 
-class BittrexAPI {
+const url = {
 
-  constructor(){
-   this.url = 'https://bittrex.com/api/v1.1/public/'
-   this._getMarkets = 'getMarkets'
-   this._getcurrencies = 'getcurrencies'
-   this._getticker = 'getticker'
-   this._getmarketsummaries = 'getmarketsummaries'
-   this._getmarketsummary = 'getmarketsummary'
-   this._getorderbook = 'getorderbook'
-   this._getmarkethistory = 'getmarkethistory'
-  }
+    publicUrl: 'https://bittrex.com/api/v1.1/public/',
+    privateUrl: 'https://bittrex.com/api/v1.1/account/',
 
-  doRequest(url) {
-     return new Promise(function (resolve, reject) {
-       request(url, function (error, res, body) {
-         if (!error && res.statusCode == 200) {
-           //console.log(body)
-           resolve(body);
-         } else {
-           reject(error);
-         }
-       })
-     }).catch((error) => {
-      console.log(url + '--> Request error:');
-      console.log(error)
-    });
-  }
+    //Public
+    getMarkets: 'getMarkets',
+    getcurrencies: 'getcurrencies',
+    getticker: 'getticker',
+    getmarketsummaries: 'getmarketsummaries',
+    getmarketsummary: 'getmarketsummary',
+    getorderbook: 'getorderbook',
+    getmarkethistory: 'getmarkethistory',
 
-//Bittrex Public API GET requests
+    //Private
+    getorderhistory: 'getorderhistory'
+};
 
-  async getmarkets() {
-    try{
-      let endpoint = this.url+this._getMarkets
-      console.log(endpoint)
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
 
-  async getcurrencies() {
-    try{
-      let endpoint = this.url+this._getcurrencies
-      console.log(endpoint)
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
+class Bittrex {
 
-  async getticker(pair1, pair2) {
-    try{
-      let market = pair1 + '-' + pair2
-      let endpoint = this.url+this._getticker+'?'+'market='+market
-      console.log(endpoint)
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
+    /**
+     * @param obj
+     */
+    constructor(obj) {
 
-  async getmarketsummaries() {
-    try{
-      let endpoint = this.url+this._getmarketsummaries
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
+        this.apiKey = obj.apiKey;
+        this.apiSecret = obj.apiSecret;
 
-  async getmarketsummary(pair1, pair2) {
-    try{
-      let market = pair1 + '-' + pair2
-      let endpoint = this.url+this._getmarketsummary+'?'+'market='+market
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
+    }
 
-  async getorderbook(pair1, pair2, type) {
-    try{
-      let market = pair1 + '-' + pair2
-      let endpoint = this.url+this._getorderbook+'?'+'market='+market+'&'+'type='+type
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
+    doRequest(uri) {
 
-  async getmarkethistory(pair1, pair2) {
-    try{
-      let market = pair1 + '-' + pair2
-      let endpoint = this.url+this._getmarkethistory+'?'+'market='+market
-      let res = await this.doRequest(endpoint)
-      return res
-    } catch(error) {}
-  }
+        let headers = {};
+
+        //add apisign only if is a private call
+        if (uri.split('account').length > 1) {
+            let apisign = hmac_sha512(uri, this.apiSecret);
+            headers = {apisign};
+        }
+
+        return new Promise(function (resolve, reject) {
+            request({
+                uri,
+                headers
+
+            }, function (error, res, body) {
+                if (!error && res.statusCode === 200) {
+                    resolve(body);
+                } else {
+                    reject(error);
+                }
+            })
+        }).catch((error) => {
+            console.log(uri + '--> Request error:');
+            console.log(error)
+        });
+    }
+
+
+    getObjectParams() {
+        return {
+            apikey: this.apiKey,
+            apiSecret: this.apiSecret,
+            nonce: Bittrex.getNonce()
+        }
+    }
+
+
+    //Static functions
+
+    static getNonce() {
+        return Math.floor(new Date().getTime() / 1000);
+    }
+
+
+    static generateUri(uri, obj) {
+
+        for (let key in obj) {
+
+            if (obj.hasOwnProperty(key)) {
+                let re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+                let separator = uri.indexOf('?') !== -1 ? "&" : "?";
+
+                if (uri.match(re)) {
+                    uri = uri.replace(re, '$1' + key + "=" + obj[key] + '$2');
+                } else {
+                    uri = uri + separator + key + "=" + obj[key];
+                }
+            }
+
+        }
+
+        return uri;
+    }
+
+
+    // Public API GET requests
+
+    async getmarkets() {
+        try {
+            let endpoint = url.publicUrl + url.getMarkets;
+            console.log(endpoint);
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getcurrencies() {
+        try {
+            let endpoint = url.publicUrl + url.getcurrencies;
+            console.log(endpoint);
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getticker(pair1, pair2) {
+        try {
+            let market = pair1 + '-' + pair2;
+            let endpoint = url.publicUrl + url.getticker + '?' + 'market=' + market;
+            console.log(endpoint);
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getmarketsummaries() {
+        try {
+            let endpoint = url.publicUrl + url.getmarketsummaries;
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getmarketsummary(pair1, pair2) {
+        try {
+            let market = pair1 + '-' + pair2;
+            let endpoint = url.publicUrl + url.getmarketsummary + '?' + 'market=' + market;
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getorderbook(pair1, pair2, type) {
+        try {
+            let market = pair1 + '-' + pair2;
+            let endpoint = url.publicUrl + url.getorderbook + '?market=' + market + '&type= ' + type;
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getmarkethistory(pair1, pair2) {
+        try {
+            let market = pair1 + '-' + pair2;
+            let endpoint = url.publicUrl + url.getmarkethistory + '?market=' + market;
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    //Private API requests
+
+    async getorderhistory() {
+        try {
+
+            let endpoint = Bittrex.generateUri(url.privateUrl + url.getorderhistory, this.getObjectParams());
+
+            return await this.doRequest(endpoint);
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 
 
 }
 
-exports.BittrexAPI = BittrexAPI;
+exports.Bittrex = Bittrex;

@@ -5,20 +5,6 @@ You can just install in your project and use it with:
 $npm install async-bittrex-api-node --save
 ```
 
-and simply require it where you need it in your node js application:
-
-```sh
-const {BittrexAPI} = require ('async-bittrex-api-node')
-let bittrexAPI = new BittrexAPI()
-
-await bittrexAPI.getmarkets()
-```
-
-Explore the code on Github:
-https://github.com/Alexander-Herranz/async-bittrex-api-node
-Use the library directly as npm package:
-https://www.npmjs.com/package/async-bittrex-api-node
-
 
 # async-bittrex-api-node
 
@@ -44,49 +30,48 @@ Functions are pretty descriptive by their name. Same name as Bittrex endpoints.
 
 
 ### Test the module yourself
-In test/test.js you can see the basic use of the app. You can run this example with:
+In testBittrexAPi.js you can see the basic use of the app. You can run this example with:
 ```sh
 $npm install
-$npm test
 ```
+
+if you want to use the private api:
+
+Rename .env-test in .env and add your private and secret keys .
 
 ```sh
-const {BittrexAPI} = require('./BittrexAPI')
-let bittrexAPI = new BittrexAPI()
+  let pair1 = 'btc';
+  let pair2 = 'eth';
+  let type  = 'both';
 
-testAPI()
+  console.log('PUBLIC');
 
-async function testAPI(){
-  let pair1 = 'btc'
-  let pair2 = 'eth'
-  let type  = 'both'
+  console.log('TEST 1: ');
+  console.log( await bittrex.getmarkets() );
+  console.log('TEST 2: ');
+  console.log( await bittrex.getcurrencies() );
+  console.log('TEST 3: ');
+  console.log( await bittrex.getticker(pair1, pair2) );
+  console.log('TEST 4: ');
+  console.log( await bittrex.getmarketsummaries() );
+  console.log('TEST 5: ');
+  console.log( await bittrex.getmarketsummary(pair1, pair2) );
+  console.log('TEST 6: ');
+  console.log( await bittrex.getorderbook(pair1, pair2, type) );
+  console.log('TEST 7: ');
+  console.log( await bittrex.getmarkethistory(pair1, pair2) );
 
-  console.log('TEST 1: ')
-  console.log( await bittrexAPI.getmarkets() )
-  console.log('TEST 2: ')
-  console.log( await bittrexAPI.getcurrencies() )
-  console.log('TEST 3: ')
-  console.log( await bittrexAPI.getticker(pair1, pair2) )
-  console.log('TEST 4: ')
-  console.log( await bittrexAPI.getmarketsummaries() )
-  console.log('TEST 5: ')
-  console.log( await bittrexAPI.getmarketsummary(pair1, pair2) )
-  console.log('TEST 6: ')
-  console.log( await bittrexAPI.getorderbook(pair1, pair2, type) )
-  console.log('TEST 7: ')
-  console.log( await bittrexAPI.getmarkethistory(pair1, pair2) )
 
-}
+  console.log('PRIVATE');
+
+  console.log('TEST 8: ');
+  console.log(await bittrex.getorderhistory());
 
 ```
-
-
-### Motivation
-I was just writting a node app with async/await features for fun, and find useful to have a library ready to do it (I didn't really find any useful in the web).
 
 ### Todos
 
- - Add private (token based) API functions
+ - Only one private API function is implemented.
  - Any contribution will be appreciated.
 
 License
