@@ -4,6 +4,7 @@ const hmac_sha512 = require('crypto-js/hmac-sha512');
 const url = {
 
     publicUrl: 'https://bittrex.com/api/v1.1/public/',
+    publicUrlv2: 'https://bittrex.com/Api/v2.0/pub/',
     privateUrl: 'https://bittrex.com/api/v1.1/account/',
 
     //Public
@@ -14,6 +15,7 @@ const url = {
     getmarketsummary: 'getmarketsummary',
     getorderbook: 'getorderbook',
     getmarkethistory: 'getmarkethistory',
+    getcandles: 'GetTicks',
 
     //Private
     getorderhistory: 'getorderhistory',
@@ -24,8 +26,6 @@ const url = {
     getdeposithistory: 'getdeposithistory',
     getorder: 'getorder',
     withdraw: 'withdraw'
-
-
 
 };
 
@@ -183,6 +183,17 @@ class Bittrex {
         }
     }
 
+    // https://bittrex.com/Api/v2.0/pub/market/GetTicks?marketName=BTC-LUN&tickInterval=fiveMin&startTime=1503680400
+    async getcandles(pair1, pair2, tickInterval, startTime){
+        try {
+            let market = pair1 + '-' + pair2;
+            let endpoint = url.publicUrlv2 + '/market/' + url.getcandles + '?marketName='+ market +'&tickInterval='
+            +tickInterval+'&startTime='+startTime
+            return await this.doRequest(endpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     //Private API requests
 
