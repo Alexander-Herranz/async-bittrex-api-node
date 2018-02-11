@@ -116,7 +116,7 @@ class Bittrex {
     async getmarkets() {
         try {
             let endpoint = url.publicUrl + url.getMarkets;
-            console.log(endpoint);
+            // console.log(endpoint);
             return await this.doRequest(endpoint)
         } catch (error) {
             console.log(error);
@@ -126,7 +126,7 @@ class Bittrex {
     async getcurrencies() {
         try {
             let endpoint = url.publicUrl + url.getcurrencies;
-            console.log(endpoint);
+            // console.log(endpoint);
             return await this.doRequest(endpoint)
         } catch (error) {
             console.log(error);
@@ -137,7 +137,7 @@ class Bittrex {
         try {
             let market = pair1 + '-' + pair2;
             let endpoint = url.publicUrl + url.getticker + '?' + 'market=' + market;
-            console.log(endpoint);
+            // console.log(endpoint);
             return await this.doRequest(endpoint)
         } catch (error) {
             console.log(error);
