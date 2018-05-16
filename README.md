@@ -23,6 +23,7 @@ Functions are pretty descriptive by their name. Same name as Bittrex endpoints.
   - getmarketsummary(pair1, pair2)
   - getorderbook(pair1, pair2, type)
   - getmarkethistory(pair1, pair2)
+  - getmarkethistory(pair1, pair2, tickInterval, startTime)
 
 #### Params
  - pair1/pair2: <String> Example: 'btc', 'eth', 'letc'...

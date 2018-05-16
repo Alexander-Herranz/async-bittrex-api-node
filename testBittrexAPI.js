@@ -14,6 +14,8 @@ async function testAPI(){
   let pair1 = 'btc';
   let pair2 = 'eth';
   let type  = 'both';
+  let tickInterval = 'hour'
+  let startTime = Date.now()
 
 
   console.log('PUBLIC');
@@ -39,6 +41,11 @@ async function testAPI(){
 
   console.log('TEST 7: ');
   console.log( await bittrex.getmarkethistory(pair1, pair2) );
+
+  // https://bittrex.com/Api/v2.0/pub/market/GetTicks?marketName=BTC-LUN&tickInterval=fiveMin&startTime=1503680400
+
+  console.log('TEST 8: ');
+  console.log( await bittrex.getcandles(pair1, pair2, tickInterval, startTime) );
 
 
   console.log('PRIVATE');

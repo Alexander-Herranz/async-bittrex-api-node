@@ -1,0 +1,24 @@
+{
+  "name": "async-bittrex-api-node",
+  "version": "1.0.0",
+  "description": "You can just install in your project and use it with:",
+  "main": "BittrexAPI.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joemccann/async-bittrex-api-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joemccann/async-bittrex-api-node/issues"
+  },
+  "homepage": "https://github.com/joemccann/async-bittrex-api-node#readme",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^5.0.0",
+    "request": "^2.83.0"
+  }
+}
